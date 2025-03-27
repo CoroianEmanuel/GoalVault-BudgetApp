@@ -10,21 +10,24 @@ import SignUp from "./pages/Auth/SignUp"
 import Home from "./pages/Deashboard/Home"
 import Income from "./pages/Deashboard/Income"
 import Expense from "./pages/Deashboard/Expenses"
+import UserProvider from "./context/userContext";
 
 const App = () => {
   return (
-    <div>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Root />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/dashboard" element={<Home />} />
-          <Route path="/income" element={<Income />} />
-          <Route path="/expense" element={<Expense />} />
-        </Routes>
-      </Router>
-    </div>
+    <UserProvider>
+      <div>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Root />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/dashboard" element={<Home />} />
+            <Route path="/income" element={<Income />} />
+            <Route path="/expense" element={<Expense />} />
+          </Routes>
+        </Router>
+      </div>
+    </UserProvider>
   )
 }
 
