@@ -71,7 +71,7 @@ export const getDashboardData = async (req, res) => {
         console.log(lastTransactions);
 
         res.json({
-            totalBalace: totalIncomeValue - totalExpenseValue,
+            totalBalance: totalIncomeValue - totalExpenseValue,
             totalIncome: totalIncomeValue,
             totalExpense: totalExpenseValue,
             last30DaysExpenses: {
