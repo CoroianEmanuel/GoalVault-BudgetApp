@@ -74,7 +74,7 @@ const Income = () => {
             fetchIncomeDetails();
 
         } catch (err) {
-            console.log("Error adding income:", err.response?.data?.message || error.message);
+            console.log("Error adding income:", err.response?.data?.message || err.message);
         }
 
     };
@@ -91,7 +91,30 @@ const Income = () => {
         }
     };
     
-    const handleDownloadIncomeDetails = async () => {};
+    const handleDownloadIncomeDetails = async () => {
+        try {
+            const response = await axiosInstance.get(
+                API_PATHS.INCOME.DOWNLOAD_INCOME,
+                {
+                    responseType:"blob" //serverul va returna un fișier binar 
+                }
+            );
+
+            const url = window.URL.createObjectURL(new Blob([response.data])); //creează un URL temporar pentru fișierul respectiv, pe care browserul îl poate folosi ca și cum ar fi un fișier local.
+            const link = document.createElement("a"); //Creez dinamic un element HTML <a> (link).
+            //setez atributele pentru <a>
+            link.href = url;
+            link.setAttribute("download", "income_details.xlsx");
+            document.body.appendChild(link);
+            link.click(); //ceea ce simulează un click și declanșează descărcarea.
+            link.parentNode.removeChild(link); //Ștergi link-ul din DOM, pentru că nu mai e necesar.
+            window.URL.revokeObjectURL(url); //Și „eliberezi” URL-ul temporar din memorie cu revokeObjectURL()
+
+        } catch (err) {
+            console.error("Error downloading income details:", err);
+            toast.error("Failed to download income details. Please try again.");
+        }
+    };
 
     useEffect(() => {
         fetchIncomeDetails();
