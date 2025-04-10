@@ -75,7 +75,7 @@ export const downloadExpenseExcel = async (req, res) => {
         const ws = xlsx.utils.json_to_sheet(data);
         xlsx.utils.book_append_sheet(wb, ws, "Expense");
         xlsx.writeFile(wb, 'expense_details.xlsx');
-        xlsx.download('expense_details.xlsx');
+        res.download('expense_details.xlsx');
     } catch (err) {
         res.status(500).json({ message: "Server Error" });
     }
