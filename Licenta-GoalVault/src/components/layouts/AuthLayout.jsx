@@ -10,9 +10,9 @@ const AuthLayout = ({children}) => {
         </div>
         
         <div className="hiddem mb:block w-[40vw] h-screen bg-violet-50 bg-auth-bg-img bg-cover bg-no-repeat bg-center overflow-hidden p-8 relative">
-            <div className="w-48 h-48 rounded-[40px] bg-purple-600 absolute -top-7 -left-5" ></div>
-            <div className="w-48 h-56 rounded-[40px] border-[20px] border-fuchsia-600 absolute top-[30%] -right-10"></div>
-            <div className="w-48 h-48 rounded-[40px] bg-violet-500 absolute -bottom-7 -left-5"></div>
+            <div className="w-48 h-48 rounded-[40px] bg-forth absolute -top-7 -left-5" ></div>
+            <div className="w-48 h-56 rounded-[40px] border-[20px] border-third absolute top-[30%] -right-10"></div>
+            <div className="w-48 h-48 rounded-[40px] bg-primary absolute -bottom-7 -left-5"></div>
 
             <div className="grid grid-cols-1 z-20">
                 <StatsInfoCard
@@ -23,10 +23,6 @@ const AuthLayout = ({children}) => {
                 />
 
             </div>
-
-            {/* <img 
-                src={CARD_2} 
-                className="w-65 lg:w-[90%] absolute bottom-10 shadow-lg shadow-blue-400/15" /> */}
         </div>
         
     </div>
