@@ -68,7 +68,31 @@ export const getDashboardData = async (req, res) => {
             }))
         ].sort((a, b) => b.date - a.date); //sorteaza tot dupa data
 
-        console.log(lastTransactions);
+
+            const income = await Income.findAll({
+                where: {userId},
+            });
+
+            const expense = await Expense.findAll({
+                where: {userId}
+            });
+
+            const calendarData = [
+                ...income.map((i) => ({
+                    id: i.id,
+                    amount: i.amount,
+                    date: i.date,
+                    type: "income",
+                    category: i.source,
+                })),
+                ...expense.map((e) => ({
+                    id: e.id,
+                    amount: e.amount,
+                    date: e.date,
+                    type: "expense",
+                    category: e.category,
+                })),
+            ].sort((a, b) => new Date(a.date) - new Date(b.date));
 
         res.json({
             totalBalance: totalIncomeValue - totalExpenseValue,
@@ -83,6 +107,7 @@ export const getDashboardData = async (req, res) => {
                 transactions: last60DaysIncomeTransactions,
             },
             recentTransactions: lastTransactions,
+            transactionsCalendar: calendarData,
         });
 
     } catch (err) {
