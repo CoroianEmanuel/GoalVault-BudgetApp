@@ -44,7 +44,12 @@
 .add-btn-fill {
     @apply text-white bg-primary;
 }
-
+.react-calendar__tile--active {
+    background-color: #3ea366 !important;
+}
+.react-calendar__tile--hasActive {
+    background-color: #3ea366 !important;
+  }
 
 
 

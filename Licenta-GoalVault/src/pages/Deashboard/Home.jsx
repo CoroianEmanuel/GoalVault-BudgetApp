@@ -14,6 +14,7 @@ import ExpenseTransactions from "../../components/Dashboard/ExpenseTransactions"
 import Last30DaysExpenses from "../../components/Dashboard/Last30DaysExpenses";
 import RecentIcomeWithChart from "../../components/Dashboard/RecentIcomeWithChart";
 import RecentIncome from "../../components/Dashboard/RecentIncome";
+import TransactionsCalendar from "../../components/Dashboard/TransactionsCalendar";
 
 const Home = () => {
     useUserAuth();
@@ -100,6 +101,12 @@ const Home = () => {
                         onSeeMore={() => navigate("/income")}
                     />
                 </div>
+                <div className="mt-6 flex justify-center">
+                    <div className="w-full md:w-2/3 lg:w-1/2">
+                        <TransactionsCalendar transactions={dashboardData?.transactionsCalendar || []} />
+                    </div>
+                </div>
+
             </div>
         </DashboardLayout>
     )
