@@ -9,12 +9,13 @@ import toast from "react-hot-toast";
 import IncomeList from "../../components/Income/IncomeList";
 import DeleteAlert from "../../components/DeleteAlert";
 import {useUserAuth} from "../../hooks/useUserAuth"
+import TransactionFilter from "../../components/Filters/TransactionFilter";
+
 
 const Income = () => {
     useUserAuth();
 
     const [editIncome, setEditIncome] = useState(null);
-
     const [incomeData, setIncomeData] = useState([]);
     const [loading, setLoading] = useState(false);
     const[openDeleteAlert, setOpenDeleteAlert] = useState({
@@ -134,6 +135,21 @@ const Income = () => {
         }
     };
 
+    const [filterMonth, setFilterMonth] = useState(null);
+    const [filterAmountMin, setFilterAmountMin] = useState("");
+    const [filterAmountMax, setFilterAmountMax] = useState("");
+
+    const filteredIncome = incomeData.filter((income) => {
+        const incomeMonth = income.date.slice(0, 7); // "YYYY-MM"
+        const selectedMonth = filterMonth
+            ? filterMonth.getFullYear() + "-" + String(filterMonth.getMonth() + 1).padStart(2, "0")
+            : "";
+        const matchesMonth = filterMonth ? incomeMonth === selectedMonth : true;
+        const matchesMin = filterAmountMin ? Number(income.amount) >= Number(filterAmountMin) : true;
+        const matchesMax = filterAmountMax ? Number(income.amount) <= Number(filterAmountMax) : true;
+        return matchesMonth && matchesMin && matchesMax;
+    });
+
     useEffect(() => {
         fetchIncomeDetails();
     }, []);
@@ -144,13 +160,27 @@ const Income = () => {
                 <div className="grid grid-cols-1 gap-6">
                     <div className="">
                         <IncomeOverview
-                            transactions={incomeData}
+                            transactions={filteredIncome}
                             onAddIncome={() => setOpenAddIncomeModal(true)}
                         />
                     </div>
 
+                    <TransactionFilter
+                        filterMonth={filterMonth}
+                        setFilterMonth={setFilterMonth}
+                        filterAmountMin={filterAmountMin}
+                        setFilterAmountMin={setFilterAmountMin}
+                        filterAmountMax={filterAmountMax}
+                        setFilterAmountMax={setFilterAmountMax}
+                        onReset={() => {
+                            setFilterMonth(null);
+                            setFilterAmountMin("");
+                            setFilterAmountMax("");
+                        }}
+                        />
+
                     <IncomeList 
-                        transactions={incomeData}
+                        transactions={filteredIncome}
                         onDelete={(id) => {
                             setOpenDeleteAlert({show: true, data: id});
                         }}

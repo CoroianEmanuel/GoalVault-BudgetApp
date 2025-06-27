@@ -9,6 +9,7 @@ import Modal from "../../components/Modal";
 import AddExpenseForm from "../../components/Expense/AddExpenseForm";
 import ExpenseList from "../../components/Expense/ExpenseList";
 import DeleteAlert from "../../components/DeleteAlert";
+import TransactionFilter from "../../components/Filters/TransactionFilter";
 
 const Expense = () => {
     useUserAuth();
@@ -104,6 +105,21 @@ const Expense = () => {
             console.error("Error deleting Expense:", err.response?.data?.message || err.message);
         }
     };
+
+    const [filterMonth, setFilterMonth] = useState(null);
+    const [filterAmountMin, setFilterAmountMin] = useState("");
+    const [filterAmountMax, setFilterAmountMax] = useState("");
+
+    const filteredExpenses = expenseData.filter((expense) => {
+        const expenseMonth = expense.date.slice(0, 7);
+        const selectedMonth = filterMonth
+            ? filterMonth.getFullYear() + "-" + String(filterMonth.getMonth() + 1).padStart(2, "0")
+            : "";
+        const matchesMonth = filterMonth ? expenseMonth === selectedMonth : true;
+        const matchesMin = filterAmountMin ? Number(expense.amount) >= Number(filterAmountMin) : true;
+        const matchesMax = filterAmountMax ? Number(expense.amount) <= Number(filterAmountMax) : true;
+        return matchesMonth && matchesMin && matchesMax;
+    });
     
     const handleDownloadExpenseDetails = async () => {
         try {
@@ -140,13 +156,27 @@ const Expense = () => {
             <div className="grid grid-cols-1 gap-6">
                 <div className="">
                         <ExpenseOverview
-                            transactions={expenseData}
+                            transactions={filteredExpenses}
                             onExpenseIncome={() => setOpenAddExpenseModal(true)}
                         />
                 </div>
 
+                <TransactionFilter
+                    filterMonth={filterMonth}
+                    setFilterMonth={setFilterMonth}
+                    filterAmountMin={filterAmountMin}
+                    setFilterAmountMin={setFilterAmountMin}
+                    filterAmountMax={filterAmountMax}
+                    setFilterAmountMax={setFilterAmountMax}
+                    onReset={() => {
+                        setFilterMonth(null);
+                        setFilterAmountMin("");
+                        setFilterAmountMax("");
+                    }}
+                />
+
                 <ExpenseList
-                    transactions={expenseData}
+                    transactions={filteredExpenses}
                     onDelete={(id) => {
                         setOpenDeleteAlert({ show: true, data: id});
                     }}
