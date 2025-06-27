@@ -3,7 +3,7 @@ import Input from "../Inputs/Input"
 import EmojiPickerPopup from "../EmojiPickerPopup";
 
 
-const AddIncomeForm = ({onAddIncome}) => {
+const AddIncomeForm = ({onAddIncome, editIncome}) => {
 
     const [income, setIncome] = useState({
         source: "",
@@ -50,7 +50,7 @@ const AddIncomeForm = ({onAddIncome}) => {
                     className="add-btn add-btn-fill"
                     onClick={() => onAddIncome(income)}
                 >
-                    Add Income
+                    {editIncome ? "Update Income" : "Add Income"}
                 </button>
             </div>
         </div>

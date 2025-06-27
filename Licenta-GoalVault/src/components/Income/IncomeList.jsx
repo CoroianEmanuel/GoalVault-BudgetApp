@@ -4,7 +4,7 @@ import moment from "moment";
 import TransactionInfoCard from "../Cards/TransactionInfoCard"
 
 
-const IncomeList = ({transactions, onDelete, onDownload}) => {
+const IncomeList = ({transactions, onDelete, onDownload, onEdit}) => {
     return (
         <div className="card">
             <div className="flex items-center justify-between">
@@ -25,6 +25,7 @@ const IncomeList = ({transactions, onDelete, onDownload}) => {
                         amount={income.amount}
                         type="income"
                         onDelete={() => onDelete(income.id)}
+                        onEdit={() => onEdit(income)}
                     />
                 ))}
             </div>

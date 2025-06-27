@@ -3,7 +3,7 @@ import Input from "../Inputs/Input"
 import EmojiPickerPopup from "../EmojiPickerPopup";
 
 
-const AddExpenseForm = ({onAddExpense}) => {
+const AddExpenseForm = ({onAddExpense, editExpense}) => {
 
     const [expense, setExpense] = useState({
         category: "",
@@ -50,7 +50,7 @@ const AddExpenseForm = ({onAddExpense}) => {
                     className="add-btn add-btn-fill"
                     onClick={() => onAddExpense(expense)}
                 >
-                    Add Expense
+                    {editExpense ? "Update Expense" : "Add Expense"}
                 </button>
             </div>
         </div>

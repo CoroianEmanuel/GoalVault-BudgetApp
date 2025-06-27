@@ -29,7 +29,7 @@ const TransactionsCalendar = ({ transactions }) => {
                 className="rounded-lg shadow border-none w-full mb-6"
             />
         </div>
-       <h4 className="text-base font-medium mb-2">
+       <h4 className="text-base font-medium mb-2 text-center">
             Transactions on {moment(calendarDate).format("DD MMMM YYYY")}
        </h4>
 

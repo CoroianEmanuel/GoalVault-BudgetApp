@@ -13,6 +13,8 @@ import DeleteAlert from "../../components/DeleteAlert";
 const Expense = () => {
     useUserAuth();
 
+    const [editExpense, setEditExpense] = useState(null);
+
     const [expenseData, setExpenseData] = useState([]);
     const [loading, setLoading] = useState(false);
     const[openDeleteAlert, setOpenDeleteAlert] = useState({
@@ -59,19 +61,35 @@ const Expense = () => {
         }
 
         try{
-            await axiosInstance.post(API_PATHS.EXPENSE.ADD_EXPENSE, {
-                category,
-                amount,
-                date,
-                icon,
-            });
+            if (editExpense) {
+                await updateExpense(editExpense.id, { category, amount, date, icon });
+                setEditExpense(null);
+            } else {
+                await axiosInstance.post(API_PATHS.EXPENSE.ADD_EXPENSE, {
+                    category,
+                    amount,
+                    date,
+                    icon,
+                });
+                toast.success("Expense added successfully");
+            }
 
             setOpenAddExpenseModal(false);
-            toast.success("Expense added successfully");
             fetchExpenseDetails();
 
         } catch (err) {
             console.log("Error adding expense:", err.response?.data?.message || err.message);
+        }
+    };
+
+    const updateExpense = async (id, updatedExpense) => {
+        try {
+            await axiosInstance.put(API_PATHS.EXPENSE.UPDATE_EXPENSE(id), updatedExpense);
+            toast.success("Expense updated successfully");
+            fetchExpenseDetails();
+        } catch (err) {
+            console.error("Error updating expense:", err.response?.data?.message || err.message);
+            toast.error("Failed to update expense.");
         }
     };
 
@@ -133,15 +151,22 @@ const Expense = () => {
                         setOpenDeleteAlert({ show: true, data: id});
                     }}
                     onDownload={handleDownloadExpenseDetails}
+                    onEdit={(expense) => {
+                        setEditExpense(expense);
+                        setOpenAddExpenseModal(true);
+                    }}
                 />
             </div>
 
             <Modal 
                 isOpen={openAddExpenseModal}
-                onClose={() => setOpenAddExpenseModal(false)}
-                title="Add Expense"
+                onClose={() => {
+                    setOpenAddExpenseModal(false);
+                    setEditExpense(null);
+                }}
+                title={editExpense ? "Edit Expense" : "Add Expense"}
             >
-                <AddExpenseForm onAddExpense={handleAddExpense} />
+                <AddExpenseForm onAddExpense={handleAddExpense} editExpense={editExpense}/>
             </Modal>
 
             <Modal
