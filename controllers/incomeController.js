@@ -82,3 +82,24 @@ export const downloadIncomeExcel = async (req, res) => {
         res.status(500).json({ message: "Server Error"});
     }
 };
+
+export const updateIncome = async (req, res) => {
+    const userId = req.user.id;
+    const incomeId = req.params.id;
+    const {icon, source, amount, date} = req.body;
+
+    try {
+        const income = await Income.findOne({ where: {id: incomeId, userId} });
+        if (!income) {
+            return res.status(404).json({message: "Income not found or unauthorized"})
+        }
+        income.icon = icon;
+        income.source = source;
+        income.amount = amount;
+        income.date = new Date(date);
+        await income.save();
+        res.json(income);
+    } catch (err) {
+        res.status(500).json({message: "Server Error"});
+    }
+}

@@ -3,7 +3,8 @@ import {
     addIncome,
     getAllIncome,
     deleteIncome,
-    downloadIncomeExcel
+    downloadIncomeExcel,
+    updateIncome
 } from "../controllers/incomeController.js";
 import { protect } from "../middleware/authMiddleware.js";
 
@@ -13,5 +14,6 @@ router.post("/add", protect, addIncome);
 router.get("/get", protect, getAllIncome);
 router.get("/downloadexcel", protect, downloadIncomeExcel);
 router.delete("/:id", protect, deleteIncome);
+router.put("/:id", protect, updateIncome);
 
 export default router;

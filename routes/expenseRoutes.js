@@ -3,7 +3,8 @@ import {
     addExpense,
     getAllExpense,
     deleteExpense,
-    downloadExpenseExcel
+    downloadExpenseExcel,
+    updateExpense
 } from "../controllers/expenseController.js";
 import {protect} from "../middleware/authMiddleware.js";
 
@@ -13,5 +14,6 @@ router.post("/add", protect, addExpense);
 router.get("/get", protect, getAllExpense);
 router.get("/downloadexcel", protect, downloadExpenseExcel);
 router.delete("/:id", protect, deleteExpense);
+router.put("/:id", protect, updateExpense);
 
 export default router;

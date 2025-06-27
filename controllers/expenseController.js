@@ -80,3 +80,25 @@ export const downloadExpenseExcel = async (req, res) => {
         res.status(500).json({ message: "Server Error" });
     }
 }
+
+export const updateExpense = async (req, res) => {
+    const userId = req.user.id;
+    const expenseId = req.params.id;
+    const { icon, category, amount, date } = req.body;
+
+    try {
+        const expense = await Expense.findOne({ where: { id: expenseId, userId } });
+        if (!expense) {
+            return res.status(404).json({ message: "Expense not found or unauthorized" });
+        }
+        expense.icon = icon;
+        expense.category = category;
+        expense.amount = amount;
+        expense.date = new Date(date);
+        await expense.save();
+        res.json(expense);
+    } catch (err) {
+        console.error("Update expense error:", err);
+        res.status(500).json({ message: "Server Error", error: err.message });
+    }
+};

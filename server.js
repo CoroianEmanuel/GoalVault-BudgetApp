@@ -25,7 +25,7 @@ app.use(
 
 app.use(express.json());
 connectDB();
-sequelize.sync({ alter: true }) //Sequelize a sincronizat modelele tale cu baza de date
+sequelize.sync({ alter: true }) //sequelize sincronizeaza modelele cu baza de date
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/income", incomeRoutes);
