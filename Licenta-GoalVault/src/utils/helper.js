@@ -28,7 +28,7 @@ export const prepareExpenseBarChartData = (data = []) => {
 export const prepareIncomeBarChartData = (data = []) => {
     const sortedData = [...data].sort((a, b) => new Date(a.date) - new Date(b.date)); //[...data]  este o copie superficială (shallow copy) a array-ului data. pentru a nu modifica array-ul original atunci când îl sortezi sau îl modifici 
 
-    const chartData = sortedData.map((item) => ({ //.map parcurge fiecare obiect si creaza unul nou 
+    const chartData = sortedData.map((item) => ({ 
         month: moment(item?.date).format('Do MM'),
         amount: item?.amount,
         source: item?.source,
