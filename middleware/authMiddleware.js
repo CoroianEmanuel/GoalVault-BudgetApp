@@ -3,8 +3,7 @@ import User from "../models/User.js";
 
 export const protect = async (req, res, next) => {
 
-    let token = req.headers.authorization?.split(" ")[1]; //transforma Authorization: Bearer TOKEN_AICI in ["Bearer", "TOKEN_AICI"] si ia elementul 2
-    // 'authorization?' este optional chaining care returneaza undefined daca token nu exista
+    let token = req.headers.authorization?.split(" ")[1]; //transforma Authorization: Bearer TOKEN in ["Bearer", "TOKEN"] si ia elementul 2
     if (!token) {
         return res.status(401).json({ message: "No authorized, no token" });
     }

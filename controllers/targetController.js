@@ -20,7 +20,7 @@ export const setExpenseTarget = async (req, res) => {
 export const getMonthlyExpenseSummary = async (req, res) => {
     const userId = req.user.id;
     const startOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-    const endOfMonth = new Date(new Date().getFullYear, new Date().getMonth + 1, 0);
+    const endOfMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
 
     try {
         const total = await Expense.sum("amount", {

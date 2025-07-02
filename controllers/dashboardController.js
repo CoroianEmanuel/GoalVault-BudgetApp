@@ -55,7 +55,7 @@ export const getDashboardData = async (req, res) => {
                 limit: 5,
             })).map(transact => ({
                 ...transact.get({ plain: true}),
-                type: "income", //convertire in obiect simplu
+                type: "income",
             })),
 
             ...(await Expense.findAll({

@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import path from "path";
+
 import { connectDB } from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js"
 import incomeRoutes from "./routes/incomeRoutes.js"
@@ -14,7 +14,7 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 5000;
 
-//Middleware to handle CROS
+//Middleware to handle CORS
 app.use(
     cors({
         origin: process.env.CLIENT_URL || "*", //permite cereri doar de la CLIENT_URL ori toti
